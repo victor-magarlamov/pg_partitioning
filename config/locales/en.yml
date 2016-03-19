@@ -1,0 +1,27 @@
+en:
+  pg_partitioning:
+    enter: "Enter the %{quest}" 
+    quests:
+      mode: "type of the partitioning - equal(0), step(1), date(2): "
+      table_name: "name of the table: "
+      column_name: "name of the column: "
+      cond_step: "step (e.g. 1000): "
+      cond_date: "pattern (e.g. YYYY_MM or MM): "
+    failure:
+      answer: "I cannot accept your answer!"
+      mode: "Invalid value."
+      step: "Invalid value. Should be eat then 0"
+      pattern: "Invalid value."
+      no_table: "Table with some column is not exists!"
+      column_type: "Invalid column type."
+      blank_cond: "Value is not set."
+      other: "An error has occurred."
+    progress:
+      insert_master: "Insert master func: %{state}"
+      before_insert_trigger: "Before Insert trigger: %{state}"
+      drop_master: "Drop master func: %{state}"
+      after_insert_trigger: "After Insert trigger: %{state}"
+      drop_fk: "Delete foreign keys: %{state}"
+      finish: "Done!"
+    messages:
+      partition_mode: "Recommend to set constraint_exclusion in 'partition' state for best perfomance (your current state is %{current})."
