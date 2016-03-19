@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = PgPartitioning::VERSION
   s.authors     = ["Victor M."]
   s.email       = ["victor.magarlamov@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of PgPartitioning."
-  s.description = "TODO: Description of PgPartitioning."
+  s.homepage    = "https://github.com/victor-magarlamov/pg_partitioning"
+  s.summary     = "PostgreSQL partitioning assistant for Rails"
+  s.description = "PostgreSQL partitioning assistant for Rails"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]

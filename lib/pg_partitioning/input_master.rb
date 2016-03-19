@@ -22,8 +22,8 @@ module PgPartitioning
       end
     end
 
-    def method_missing(name, *args, &block)
-      valid? *args if name.to_s.include? '_valid?'
+    def method_missing(name, *args)
+      valid?(*args) if name.to_s.include?('_valid?')
     end
     
     def intro
@@ -74,7 +74,7 @@ module PgPartitioning
       end
       
       def cond_date_valid?(text)
-        match = text.match /Y{1,4}|M{2}|D{1,3}|W{1,2}|HH24/
+        match = text.match(/Y{1,4}|M{2}|D{1,3}|W{1,2}|HH24/)
         res = !match.blank?
         @error_message = I18n.t "pg_partitioning.failure.pattern" unless res
         res

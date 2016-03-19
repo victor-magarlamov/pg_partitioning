@@ -54,7 +54,7 @@ module PgPartitioning
         mode = ''
         @sql.execute('SHOW constraint_exclusion;').each{|r| mode = r['constraint_exclusion']}
         if mode != 'partition'
-          alert (I18n.t 'pg_partitioning.messages.partition_mode', current: mode)
+          alert I18n.t('pg_partitioning.messages.partition_mode', current: mode)
         end
       end
   end
