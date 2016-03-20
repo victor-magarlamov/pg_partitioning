@@ -4,7 +4,7 @@ module PgPartitioning
   module Strategies
     class Base
       include Printer
-      
+
       def initialize(table, column, cond, sql_conn)
         @table_name = table
         @column_name = column
@@ -15,9 +15,9 @@ module PgPartitioning
       def partitioning!
         raise error_message unless valid?
         create_insert_master_function
-        create_before_insert_trigger
+        create_trigger('insert_master', 'before')
         create_drop_function
-        create_after_insert_trigger
+        create_trigger('delete_master', 'after')
       end
       
       protected
@@ -42,12 +42,16 @@ module PgPartitioning
         res
       end
       
-      def create_before_insert_trigger
-        @sql.execute "DROP TRIGGER IF EXISTS #{@table_name}_before_insert_trigger ON #{@table_name};
-                      CREATE TRIGGER #{@table_name}_before_insert_trigger
-                      BEFORE INSERT ON #{@table_name}
-                      FOR EACH ROW EXECUTE PROCEDURE #{@table_name}_insert_master();"
-        info I18n.t("pg_partitioning.progress.before_insert_trigger", state: "OK")
+      def create_trigger(master, mode)
+        drop_trigger(mode)
+        @sql.execute "CREATE TRIGGER #{@table_name}_#{mode}_insert_trigger
+                      #{mode} INSERT ON #{@table_name}
+                      FOR EACH ROW EXECUTE PROCEDURE #{@table_name}_#{master}();"
+        info I18n.t("pg_partitioning.progress.#{mode}_insert_trigger", state: "OK")
+      end
+
+      def drop_trigger(mode)
+        @sql.execute "DROP TRIGGER IF EXISTS #{@table_name}_#{mode}_insert_trigger ON #{@table_name};"
       end
 
       def create_drop_function
@@ -60,14 +64,6 @@ module PgPartitioning
                       END;
                       $$ LANGUAGE plpgsql;"
         info I18n.t("pg_partitioning.progress.drop_master", state: "OK")
-      end
-
-      def create_after_insert_trigger
-        @sql.execute "DROP TRIGGER IF EXISTS #{@table_name}_after_insert_trigger ON #{@table_name}; 
-                      CREATE TRIGGER #{@table_name}_after_insert_trigger
-                      AFTER INSERT ON #{@table_name}
-                      FOR EACH ROW EXECUTE PROCEDURE #{@table_name}_delete_master();"
-        info I18n.t("pg_partitioning.progress.after_insert_trigger", state: "OK")
       end
     end
   end
