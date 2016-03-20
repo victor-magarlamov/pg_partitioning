@@ -16,4 +16,5 @@ gemspec
 group :test do
   gem 'factory_girl_rails', require: false
   gem 'faker'
+  gem 'simplecov', require: false
 end
