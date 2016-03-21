@@ -3,3 +3,33 @@
 {<img src="https://codeclimate.com/github/victor-magarlamov/pg_partitioning/badges/gpa.svg" />}[https://codeclimate.com/github/victor-magarlamov/pg_partitioning]
 
 This project rocks and uses MIT-LICENSE.
+
+== Install
+
+Put this line in your Gemfile:
+  gem 'pg_partitioning'
+
+Then bundle:
+  % bundle install
+
+== Usage
+
+  RAILS_ENV=production rails g partitioning
+
+1) Select the partitioning mode:
+* by single column +value+
+* by dates +template+
+* by +range+
+
+2) Enter table name.
+
+3) Enter column name.
+
+4) Enter condition depending on the selected mode - template pattern or step of the range.
+
+== What will happen then
+
+== Examples
+
+
+
