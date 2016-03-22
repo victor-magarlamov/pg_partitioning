@@ -17,4 +17,5 @@ group :test do
   gem 'factory_girl_rails', require: false
   gem 'faker'
   gem 'simplecov', require: false
+  gem "codeclimate-test-reporter", require: nil
 end
