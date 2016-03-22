@@ -1,1 +1,0 @@
-var search_data = {"index":{"searchIndex":["readme"],"longSearchIndex":[""],"info":[["README","","README_rdoc.html","","<p>PgPartitioning\n<p><img\nsrc=“https://codeclimate.com/github/victor-magarlamov/pg_partitioning/badges/gpa.svg”\n…\n"]]}}
