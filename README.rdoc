@@ -1,6 +1,7 @@
 = PgPartitioning
 
 {<img src="https://codeclimate.com/github/victor-magarlamov/pg_partitioning/badges/gpa.svg" />}[https://codeclimate.com/github/victor-magarlamov/pg_partitioning]
+{<img src="https://codeclimate.com/github/victor-magarlamov/pg_partitioning/badges/coverage.svg" />}[https://codeclimate.com/github/victor-magarlamov/pg_partitioning/coverage]
 
 This project rocks and uses MIT-LICENSE.
 
@@ -37,5 +38,30 @@ For more details, see ...
 
 == Examples
 
+Given we have table 'bandits':
 
+| id | name | specialization | born_at
 
+=== Example 1: Partitioning by single column value
+
+  Enter mode: 0
+  Enter table: bandits
+  Enter column: specialization
+
+Create two bandits:
+
+  Bandit.create([{name: 'Al Capone', specialization: 'bootlegger'},
+                 {name: 'Black Bart', specialization: 'robber'}])
+
+Now we have three tables:
+
+* bandits - master - not contains real data
+* bandits_bootlegger - nested - contains only the bootleggers
+* bandits_robber - nested - contains only the robbers
+
+Check this... 
+  
+  SELECT COUNT(*) FROM bandits; (2)
+  SELECT COUNT(*) FROM ONLY bandits; (0)
+  SELECT COUNT(*) FROM ONLY bandits_bootlegger; (1)
+  SELECT COUNT(*) FROM ONLY bandits_robber; (1)
