@@ -34,9 +34,11 @@ module PgPartitioning
 
       def column_data_type
         res = nil
-        @sql.execute("SELECT data_type FROM information_schema.columns 
-                      WHERE table_name ='#{@table_name}' 
-                      AND column_name = '#{@column_name}';").each do |r|
+        query = ActiveRecord::Base.send(:sanitize_sql_array,
+                                        ["SELECT data_type FROM information_schema.columns
+                                          WHERE table_name = ? AND column_name = ?;",
+                                         @table_name, @column_name])
+        @sql.execute(query).each do |r|
           res = r['data_type']
         end
         res
