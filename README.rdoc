@@ -65,3 +65,31 @@ Check this...
   SELECT COUNT(*) FROM ONLY bandits; (0)
   SELECT COUNT(*) FROM ONLY bandits_bootlegger; (1)
   SELECT COUNT(*) FROM ONLY bandits_robber; (1)
+
+=== Example 2: Partitioning by range
+
+  Enter mode: 1
+  Enter table: bandits
+  Enter column: id
+  Enter step: 10
+
+All bandits with ID from 0 to 9 will be recorded to table 'bandits_0'.
+All bandits with ID from 10 to 19 will be recorded to table 'bandits_1'.
+All bandits with ID from 20 to 29 will be recorded to table 'bandits_2' etc.
+
+=== Example 3: Partitioning by date template
+
+  Enter mode: 2
+  Enter table: bandits
+  Enter column: born_at
+  Enter pattern: YYYYMM
+
+Create two bandits:
+
+  Bandit.create([{name: 'Al Capone', born_at: '1899-01-17'},
+                 {name: 'Charles Luciano', born_at: '1897-11-24'}])
+
+And now we have two child tables:
+
+* bandits_1899_01
+* bandits_1897_11
