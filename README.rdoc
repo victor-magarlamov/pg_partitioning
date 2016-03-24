@@ -15,7 +15,7 @@ Then bundle:
 
 == Usage
 
-  RAILS_ENV=production rails g partitioning
+  % RAILS_ENV=production rails g partitioning
 
 1) Select the partitioning mode:
 * by single column +value+
@@ -32,7 +32,9 @@ What will happen then...
 
 1) The generator will create two triggers: before insert and after insert. The before insert trigger executes the procedure that created nested table and inserts a new record into it. The after trigger clears the master table.
 
-2) The generator will delete foreign keys which reference to the master table.
+2) Foreign keys which reference to the master table will delete.
+
+3) Old data will be migrated from master table to child tables.
 
 For more details, see ...
 
