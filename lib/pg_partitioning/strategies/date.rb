@@ -54,6 +54,13 @@ module PgPartitioning
                                  || ')) INHERITS (' 
                                  || TG_RELNAME 
                                  || ');';
+                         EXECUTE 'CREATE INDEX ' 
+                                 || quote_ident('index_' || tblname) 
+                                 || ' ON ' 
+                                 || quote_ident(tblname) 
+                                 || ' (id, '
+                                 || quote_ident(colname)
+                                 || ');';
                          END IF;
                          EXECUTE 'INSERT INTO ' || tblname || ' SELECT ($1).*' USING NEW;
                          RETURN NEW;

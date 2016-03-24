@@ -74,8 +74,7 @@ module PgPartitioning
       end
       
       def cond_date_valid?(text)
-        match = text.match(/Y{1,4}|M{2}|D{1,3}|W{1,2}|HH24/)
-        res = !match.blank?
+        res = /Y{1,4}|M{2}|D{1,3}|W{1,2}|HH24/ =~ text
         @error_message = I18n.t "pg_partitioning.failure.pattern" unless res
         res
       end
