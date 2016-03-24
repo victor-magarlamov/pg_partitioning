@@ -134,4 +134,23 @@ describe "PgPartitioning::PartitioningMaster" do
       end
     end
   end
+  
+  context "with old data" do
+    before do
+      100.times.with_index do |index|
+        create(:bandit, {id: index})
+      end
+      @old_data = Bandit.all
+      master = PgPartitioning::PartitioningMaster.new(table, 'id', 1, 5)
+      master.partitioning
+    end
+
+    it "created" do 
+      expect(Bandit.count).to eq 100
+    end
+
+    it "migrated" do 
+      expect(Bandit.all).to eq @old_data
+    end
+  end
 end

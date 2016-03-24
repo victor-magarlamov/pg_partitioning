@@ -23,7 +23,12 @@ module PgPartitioning
       @strategy.partitioning!
       
       drop_foreign_keys
-      check_pg_conf
+      migration
+      
+      mode = show_value_of('constraint_exclusion')
+      if mode != 'partition'
+        alert I18n.t('pg_partitioning.messages.partition_mode', current: mode)
+      end
       
       info I18n.t 'pg_partitioning.progress.finish'
     rescue => e
@@ -54,12 +59,20 @@ module PgPartitioning
         info I18n.t('pg_partitioning.progress.drop_fk', state: 'OK')
       end
 
-      def check_pg_conf
-        mode = ''
-        @sql.execute('SHOW constraint_exclusion;').each{|r| mode = r['constraint_exclusion']}
-        if mode != 'partition'
-          alert I18n.t('pg_partitioning.messages.partition_mode', current: mode)
-        end
+      def migration
+        @sql.execute <<-SQL
+          CREATE MATERIALIZED VIEW temp_table AS SELECT * FROM #{@table_name};
+          DELETE FROM #{@table_name};
+          INSERT INTO #{@table_name} (SELECT * FROM temp_table);
+          DROP MATERIALIZED VIEW temp_table;
+        SQL
+        info I18n.t('pg_partitioning.progress.migration', state: 'OK')
+      end
+      
+      def show_value_of(param)
+        res = ''
+        @sql.execute("SHOW #{param};").each{ |r| res = r[param] }
+        res
       end
   end
 end

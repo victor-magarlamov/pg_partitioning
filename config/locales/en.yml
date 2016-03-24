@@ -22,6 +22,7 @@ en:
       drop_master: "Drop master func: %{state}"
       after_insert_trigger: "After Insert trigger: %{state}"
       drop_fk: "Delete foreign keys: %{state}"
+      migration: "Migrate old data: %{state}"
       finish: "Done!"
     messages:
       partition_mode: "Recommend to set constraint_exclusion in 'partition' state for best perfomance (your current state is %{current})."
