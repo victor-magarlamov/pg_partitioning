@@ -3,7 +3,7 @@ PATH
   specs:
     pg_partitioning (0.0.1)
       pg
-      rails (~> 4.2.5.2)
+      rails (>= 4.2.5.2)
 
 GEM
   remote: https://rubygems.org/
